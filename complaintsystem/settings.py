@@ -9,6 +9,8 @@ https://docs.djangoproject.com/en/5.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
+from dotenv import load_dotenv
+load_dotenv()
 
 from pathlib import Path
 import os
@@ -21,15 +23,15 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-_8&9w)pek%vf&9%w+)t9_@g$)s12m8&9n^330uda-lgg0*i+ir'
+SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Secret key for QR code HMAC
-QR_CODE_SECRET_KEY = 'YOUR_VERY_STRONG_RANDOM_QR_SECRET_KEY_HERE' # CHANGE THIS IN PRODUCTION
+QR_CODE_SECRET_KEY = os.environ.get('QR_CODE_SECRET_KEY')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'True') != 'False'
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = os.environ.get('ALLOWED_HOSTS', '*').split(',')
 
 
 # Application definition
@@ -83,11 +85,13 @@ WSGI_APPLICATION = 'complaintsystem.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
+import dj_database_url
+
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
-    }
+    'default': dj_database_url.config(
+        default=os.environ.get('DATABASE_URL'),
+        conn_max_age=600
+    )
 }
 
 
@@ -146,8 +150,8 @@ AUTH_USER_MODEL = 'auth_app.CustomUser'
 from datetime import timedelta
 
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=1),
-    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=int(os.environ.get('ACCESS_TOKEN_LIFETIME_MINUTES', 1))),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=int(os.environ.get('REFRESH_TOKEN_LIFETIME_DAYS', 1))),
     'ROTATE_REFRESH_TOKENS': False,
     'BLACKLIST_AFTER_ROTATION': False,
     'UPDATE_LAST_LOGIN': False,
@@ -172,15 +176,15 @@ SIMPLE_JWT = {
 
     'JTI_CLAIM': 'jti',
 
-    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=1),
-    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=int(os.environ.get('SLIDING_TOKEN_LIFETIME_MINUTES', 1))),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=int(os.environ.get('SLIDING_TOKEN_REFRESH_LIFETIME_DAYS', 1))),
 
-    'AUTH_COOKIE': 'access_token',  # Cookie name. Enables cookies for authentication.
-    'AUTH_COOKIE_REFRESH': 'refresh_token', # Refresh cookie name.
-    'AUTH_COOKIE_DOMAIN': None,     # A string or None. Set to None for the current domain.
-    'AUTH_COOKIE_SECURE': False,    # Whether the auth cookies should be secure (HTTPS only).
-    'AUTH_COOKIE_HTTP_ONLY': True,  # If auth cookies should be httponly (not accessible via JavaScript).
-    'AUTH_COOKIE_SAMESITE': 'Lax',  # Whether to set Samesite attribute on auth cookies.
+    'AUTH_COOKIE': 'access_token',
+    'AUTH_COOKIE_REFRESH': 'refresh_token',
+    'AUTH_COOKIE_DOMAIN': None,
+    'AUTH_COOKIE_SECURE': False,
+    'AUTH_COOKIE_HTTP_ONLY': True,
+    'AUTH_COOKIE_SAMESITE': 'Lax',
 }
 
 # REST Framework settings
@@ -199,14 +203,7 @@ REST_FRAMEWORK = {
 }
 
 # CORS settings
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5173",  
-    "http://localhost:5174",  
-    "http://127.0.0.1:5173",
-
-
-    "https://complaint-form-for-hospital-complai.vercel.app",
-]
+CORS_ALLOWED_ORIGINS = os.environ.get('CORS_ALLOWED_ORIGINS').split(',')
 CORS_ALLOW_CREDENTIALS = True
 
 # Media files

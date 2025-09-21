@@ -1,4 +1,5 @@
 venv/
+media/
 .venv/
 __pycache__/
 *.py[cod]
@@ -20,5 +21,7 @@ wheels/
 *.egg-info/
 .installed.cfg
 *.egg
-complaintsystem\complaintsystem\__pycache__
-complaintsystem\complaints\__pycache__ 
+.env
+db.sqlite3
+static/
+media/
