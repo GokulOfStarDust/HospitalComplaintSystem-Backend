@@ -18,6 +18,7 @@ class CookieTokenObtainPairView(TokenObtainPairView):
     def finalize_response(self, request, response, *args, **kwargs):
         if response.status_code == 200:
             access_token = response.data.pop('access')
+            refresh_token = response.data.pop('refresh')
             response.set_cookie(
                 key=settings.SIMPLE_JWT['AUTH_COOKIE'],
                 value=access_token,
