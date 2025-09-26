@@ -51,9 +51,9 @@ class CookieTokenRefreshView(TokenRefreshView):
 
 class LogoutView(APIView):
     def post(self, request):
-        response = Response(status=status.HTTP_204_NO_CONTENT)
-        response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'])
-        response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'])
+        response = Response(status=status.HTTP_205_RESET_CONTENT)
+        response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE_REFRESH'], path='/')
+        response.delete_cookie(settings.SIMPLE_JWT['AUTH_COOKIE'], path='/')
         return response
 
 @method_decorator(csrf_exempt, name='dispatch')

@@ -56,7 +56,10 @@ class DepartmentViewSet(GenericViewSet, ListModelMixin, CreateModelMixin, Retrie
     search_fields = ['department_code', 'department_name']
 
     def get_permissions(self):
-        self.permission_classes = [IsAuthenticated, IsMasterAdmin]
+        if self.action in ['list', 'retrieve']:
+            self.permission_classes = [AllowAny]
+        else:
+            self.permission_classes = [IsAuthenticated, IsMasterAdmin]
         return super().get_permissions()
 
 class IssueCatViewset(GenericViewSet, ListModelMixin, CreateModelMixin, RetrieveModelMixin, UpdateModelMixin, DestroyModelMixin):
