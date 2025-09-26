@@ -18,12 +18,12 @@ class CookieTokenObtainPairView(TokenObtainPairView):
     def finalize_response(self, request, response, *args, **kwargs):
         if response.status_code == 200:
             access_token = response.data.pop('access')
-            refresh_token = response.data.pop('refresh')
             response.set_cookie(
                 key=settings.SIMPLE_JWT['AUTH_COOKIE'],
                 value=access_token,
                 max_age=60 * 10,
                 httponly=True,
+                secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
                 samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
             )
             response.set_cookie(
@@ -31,6 +31,7 @@ class CookieTokenObtainPairView(TokenObtainPairView):
                 value=refresh_token,
                 max_age=86400,
                 httponly=True,
+                secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
                 samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
             )
         return super().finalize_response(request, response, *args, **kwargs)
@@ -45,6 +46,7 @@ class CookieTokenRefreshView(TokenRefreshView):
                 value=access_token,
                 max_age=60 * 10,
                 httponly=True,
+                secure=settings.SIMPLE_JWT['AUTH_COOKIE_SECURE'],
                 samesite=settings.SIMPLE_JWT['AUTH_COOKIE_SAMESITE'],
             )
         return super().finalize_response(request, response, *args, **kwargs)
