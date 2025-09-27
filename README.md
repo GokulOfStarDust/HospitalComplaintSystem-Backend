@@ -85,40 +85,38 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 The base URL for all API endpoints is `/api/`.
 
-| Method | Endpoint                       | Description                               |
-| :----- | :----------------------------- | :---------------------------------------- |
-| `POST` | `/auth/login/`                 | Obtain JWT access and refresh tokens.     |
-| `POST` | `/auth/refresh/`               | Refresh JWT access token.                 |
-| `GET`  | `/auth/user/`                  | Get details of the authenticated user.    |
-| `POST` | `/auth/logout/`                | Logout the user.                          |
-| `GET`  | `/rooms/`                      | List all rooms.                           |
-| `POST` | `/rooms/`                      | Create a new room.                        |
-| `GET`  | `/rooms/{id}/`                 | Retrieve a single room.                   |
-| `PUT`  | `/rooms/{id}/`                 | Update a room.                            |
-| `PATCH`| `/rooms/{id}/`                 | Partially update a room.                  |
-| `DELETE`| `/rooms/{id}/`                | Delete a room.                            |
-| `GET`  | `/complaints/`                 | List all complaints.                      |
-| `POST` | `/complaints/`                 | Create a new complaint.                   |
-| `GET`  | `/complaints/{ticket_id}/`     | Retrieve a single complaint.              |
-| `PUT`  | `/complaints/{ticket_id}/`     | Update a complaint.                       |
-| `PATCH`| `/complaints/{ticket_id}/`     | Partially update a complaint.             |
-| `DELETE`| `/complaints/{ticket_id}/`    | Delete a complaint.                       |
-| `GET`  | `/departments/`                | List all departments.                     |
-| `POST` | `/departments/`                | Create a new department.                  |
-| `GET`  | `/issue-category/`             | List all issue categories.                |
-| `POST` | `/issue-category/`             | Create a new issue category.              |
-| `GET`  | `/report/`                     | Get complaint reports.                    |
-| `GET`  | `/TATView/`                    | Get Turnaround Time (TAT) for complaints. |
+| Method | Endpoint                               | Description                               |
+| :----- | :------------------------------------- | :---------------------------------------- |
+| `POST` | `auth/login/`                          | Obtain JWT access and refresh tokens.     |
+| `POST` | `auth/refresh/`                        | Refresh JWT access token.                 |
+| `GET`  | `auth/user/`                           | Get details of the authenticated user.    |
+| `POST` | `auth/logout/`                         | Logout the user.                          |
+| `GET`  | `rooms/`                               | List all rooms.                           |
+| `POST` | `rooms/`                               | Create a new room.                        |
+| `GET`  | `rooms/{id}/`                          | Retrieve a single room.                   |
+| `PUT`  | `rooms/{id}/`                          | Update a room.                            |
+| `PATCH`| `rooms/{id}/`                          | Partially update a room.                  |
+| `DELETE`| `rooms/{id}/`                         | Delete a room.                            |
+| `GET`  | `complaints/`                          | List all complaints.                      |
+| `POST` | `complaints/`                          | Create a new complaint.                   |
+| `GET`  | `complaints/{ticket_id}/`              | Retrieve a single complaint.              |
+| `PUT`  | `complaints/{ticket_id}/`              | Update a complaint.                       |
+| `PATCH`| `complaints/{ticket_id}/`              | Partially update a complaint.             |
+| `DELETE`| `complaints/{ticket_id}/`             | Delete a complaint.                       |
+| `GET`  | `departments/`                         | List all departments.                     |
+| `POST` | `departments/`                         | Create a new department.                  |
+| `GET`  | `departments/{department_name}/staff/` | Get staff for a specific department.      |
+| `GET`  | `issue-category/`                      | List all issue categories.                |
+| `POST` | `issue-category/`                      | Create a new issue category.              |
+| `GET`  | `report/all_department_stats/`         | Get complaint statistics for all departments. |
+| `GET`  | `TATView/all_department_TATS/`         | Get Turnaround Time (TAT) for all departments. |
 
 ## 🔐 Authentication
 
-This API uses JWT for authentication. To access protected endpoints, you need to include the access token in the `Authorization` header as a Bearer token:
+This API uses JWT for authentication, with tokens sent as secure, httpOnly cookies. This means that after logging in, the browser will automatically handle the access and refresh tokens for subsequent requests.
 
-```
-Authorization: Bearer <your_access_token>
-```
+The frontend, when using libraries like `axios`, should be configured with `withCredentials: true` to ensure cookies are sent with each request. There is no need to manually add a `Bearer` token to the `Authorization` header.
 
-Alternatively, you can use the secure cookie-based authentication provided by the `CookieTokenObtainPairView`.
 
 ## 📦 Data Models
 
