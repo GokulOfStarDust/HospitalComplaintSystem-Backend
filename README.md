@@ -1,7 +1,7 @@
-
+commi
 # 🏥 Complaint Management System API
 
-[![Django CI](https://github.com/your-username/your-repo/actions/workflows/django.yml/badge.svg)](https://github.com/your-username/your-repo/actions/workflows/django.yml)
+[![Django CI](https://github.com/GokulOfStarDust/HospitalComplaintSystem-Backend/actions/workflows/django.yml/badge.svg)](https://github.com/GokulOfStarDust/HospitalComplaintSystem-Backend/actions/workflows/django.yml)
 [![License: GPL v3](https://img.shields.io/badge/License-GPLv3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0)
 
 An advanced API for a hospital complaint management system, built with Django and Django REST Framework. This system allows for efficient tracking and resolution of complaints, with features like QR code integration for easy complaint submission, role-based access control, and detailed reporting.
@@ -40,8 +40,8 @@ Follow these instructions to get a copy of the project up and running on your lo
 
 1.  **Clone the repository:**
     ```bash
-    git clone https://github.com/your-username/complaint-system-backend.git
-    cd complaint-system-backend
+    git clone https://github.com/GokulOfStarDust/HospitalComplaintSystem-Backend.git
+    cd HospitalComplaintSystem-Backend
     ```
 
 2.  **Create a virtual environment and install dependencies:**
